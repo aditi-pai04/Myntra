@@ -18,7 +18,7 @@
                 <img src="{{ product['img'] }}" alt="{{ product['name'] }}">
             </div>
             <p>Price: ₹{{ product['price'] }}</p>
-            <a href="{{ product['purl'] }}">Buy Now</a>
+            <button onclick="location.href='/product/{{ product.id }}'">Buy Now</button>
         </div>
         {% endfor %}
     </div>

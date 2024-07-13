@@ -37,7 +37,7 @@ body {
   
   .product-images img {
     width: 100%;
-    height: 200px; /* Adjust height as needed */
+    height: 500px; /* Adjust height as needed */
     object-fit: cover; /* Ensures image fills container */
   }
   
@@ -52,7 +52,7 @@ body {
     font-weight: bold;
   }
   
-  .product a {
+  .product button {
     display: inline-block;
     padding: 10px 20px;
     background-color: #f842cd; /* Orange color similar to Myntra buttons */
@@ -62,7 +62,7 @@ body {
     transition: all 0.2s ease-in-out;
   }
   
-  .product a:hover {
+  .product button:hover {
     background-color: #f842cd; /* Darker orange on hover */
   }
   
