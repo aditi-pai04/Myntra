@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Myntra Clone</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Myntra</h1>
+    </header>
+
+    <div class="product-container">
+        {% for product in products %}
+        <div class="product">
+            <h2>{{ product['name'] }}</h2>
+            <div class="product-images">
+                <img src="{{ product['img'] }}" alt="{{ product['name'] }}">
+            </div>
+            <p>Price: ₹{{ product['price'] }}</p>
+            <button onclick="location.href='/product/{{ product.id }}'">Buy Now</button>
+        </div>
+        {% endfor %}
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Myntra Clone. All rights reserved.</p>
+    </footer>
+</body>
+</html>

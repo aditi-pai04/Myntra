@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Try On - {{ product.name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .product-details {
+            padding: 20px;
+        }
+        .product-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .upload-section {
+            margin-top: 20px;
+        }
+        .upload-section input[type="file"] {
+            display: block;
+            margin-bottom: 20px;
+        }
+        .uploaded-img {
+            max-width: 300px; /* Set the maximum width of the image */
+            max-height: 300px; /* Set the maximum height of the image */
+            width: auto; /* Make the width responsive */
+            height: auto; /* Make the height responsive */
+            display: block;
+            margin: 20px 0; /* Center the image and add margin */
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .button-container button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #ff3f6c;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .button-container button:hover {
+            background-color: #e02e56;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <center>
+            <div class="product-details">
+                <h1 class="product-title">{{ product.name }}</h1>
+            </div>
+            <div class="upload-section">
+                <form action="{{ url_for('vton_result', product_id=product.id) }}" method="POST" enctype="multipart/form-data">
+                    <label for="userImage">Upload your image:</label>
+                    <input type="file" id="userImage" name="userImage" accept="image/*" onchange="previewImage(event)">
+                    <img id="preview" class="uploaded-img" style="display: none;">
+                    <div class="button-container">
+                        <button type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </center>
+    </div>
+    <script>
+        function previewImage(event) {
+            var preview = document.getElementById('preview');
+            preview.src = URL.createObjectURL(event.target.files[0]);
+            preview.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+id,name,img,mask,price,mrp,rating,ratingTotal,discount,seller
+1,Women's red stylish top,static\images\02783_00.jpg,static\masks\02783_00.jpg,799,799,0,0,0,max
+2,Women's pocket loose top,static\images\03751_00.jpg,static\masks\03751_00.jpg,494,1099,4.2,1800,55,Moda Rapido
+3,Women's t shirt pocket,static\images\06429_00.jpg,static\masks\06429_00.jpg,524,1499,4.4,485,65,DILLINGER
+4,Women's blue party wear dress,static\images\06802_00.jpg,static\masks\06802_00.jpg,699,699,4.2,780,0,H&M
+5,Women's sports fit dress,static\images\07429_00.jpg,static\masks\07429_00.jpg,532,1299,0,0,59,BRINNS
+6,Men's t shirt porsche,static\images\08348_00.jpg,static\masks\08348_00.jpg,2199,2199,0,0,0,ELLIS
+7,Men's maroon kurta top,static\images\09933_00.jpg,static\masks\09933_00.jpg,1329,1399,0,0,5,Sweet Dreams
+8,Women's off shoulder dress,static\images\11028_00.jpg,static\masks\11028_00.jpg,799,799,0,0,0,Roadster
+9,Womens' top,static\images\11351_00.jpg,static\masks\11351_00.jpg,800,800,1,1,1,Roadster
+10,Womens stylish top,static\images\11791_00.jpg,static\masks\11791_00.jpg,801,801,2,2,2,Roadster
+11,Womens fancy top,static\images\01260_00.jpg,static\masks\01260_00.jpg,802,802,3,3,3,Roadster
+12,Womens dresses,static\images\01430_00.jpg,static\masks\01430_00.jpg,803,803,4,4,4,Roadster

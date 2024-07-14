@@ -1,0 +1,79 @@
+/* Basic Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: #fff;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  h1 {
+    font-size: 2em;
+    font-weight: bold;
+    margin: 0;
+    background-color: #d75aba;
+  }
+  
+  /* Product Container */
+  .product-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px;
+  }
+  
+  .product {
+    width: calc(25% - 20px); /* Adjust width as needed for responsiveness */
+    background-color: #f5f5f5;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .product-images img {
+    width: 100%;
+    height: 500px; /* Adjust height as needed */
+    object-fit: cover; /* Ensures image fills container */
+  }
+  
+  /* Product Details */
+  .product h2 {
+    margin: 10px 0;
+    font-size: 1.2em;
+  }
+  
+  .product p {
+    margin: 5px 0;
+    font-weight: bold;
+  }
+  
+  .product button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f842cd; /* Orange color similar to Myntra buttons */
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .product button:hover {
+    background-color: #f842cd; /* Darker orange on hover */
+  }
+  
+  /* Footer */
+  footer {
+    background-color: #f2f2f2;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  footer p {
+    margin: 0;
+  }
+  

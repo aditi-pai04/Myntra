@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Try On Result - {{ product.name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .product-details {
+            padding: 20px;
+        }
+        .product-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .result-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="product-details">
+            <h1 class="product-title">{{ product.name }}</h1>
+            <img src="{{ url_for('static', filename=product.img) }}" alt="Product Image" class="uploaded-img">
+        </div>
+        <div>
+            <h2>Virtual Try-On Result</h2>
+            <img src="{{ url_for('static', filename=output_image) }}" alt="Output Image" class="result-image">
+        </div>
+    </div>
+</body>
+</html>
