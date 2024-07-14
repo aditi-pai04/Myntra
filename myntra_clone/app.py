@@ -28,48 +28,48 @@ import torchgeometry as tgm
 from datasets import VITONDataset, VITONDataLoader
 from networks import SegGenerator, GMM, ALIASGenerator
 from utils import gen_noise, load_checkpoint, save_images
-params = {
-    'model_folder': 'C:/Users/aditi/OneDrive/Desktop/myntra/prototype/Myntra_hack/myntra_clone/openpose/models',  # Replace with your OpenPose model folder
-    'disable_blending': False,
-    'number_people_max': 1,
-    'model_pose': 'BODY_25',  # Example, use 'BODY_25' or other models based on your needs
-    'display': 0
-}
+# params = {
+#     'model_folder': 'C:/Users/aditi/OneDrive/Desktop/myntra/prototype/Myntra_hack/myntra_clone/openpose/models',  # Replace with your OpenPose model folder
+#     'disable_blending': False,
+#     'number_people_max': 1,
+#     'model_pose': 'BODY_25',  # Example, use 'BODY_25' or other models based on your needs
+#     'display': 0
+# }
 
-# Initialize OpenPose
-openpose = op.WrapperPython()
-openpose.configure(params)
-openpose.start()
+# # Initialize OpenPose
+# openpose = op.WrapperPython()
+# openpose.configure(params)
+# openpose.start()
 
-def generate_keypoints_openpose(image_path):
-    datum = op.Datum()
-    image_to_process = op.imread(image_path)
-    datum.cvInputData = image_to_process
-    openpose.emplaceAndPop([datum])
+# def generate_keypoints_openpose(image_path):
+#     datum = op.Datum()
+#     image_to_process = op.imread(image_path)
+#     datum.cvInputData = image_to_process
+#     openpose.emplaceAndPop([datum])
     
-    keypoints_data = {
-        "version": 1.3,
-        "people": []
-    }
+#     keypoints_data = {
+#         "version": 1.3,
+#         "people": []
+#     }
     
-    for person in datum.poseKeypoints:
-        keypoints_data["people"].append({
-            "person_id": [-1],
-            "pose_keypoints_2d": person.tolist(),
-            "face_keypoints_2d": [],
-            "hand_left_keypoints_2d": [],
-            "hand_right_keypoints_2d": [],
-            "pose_keypoints_3d": [],
-            "face_keypoints_3d": [],
-            "hand_left_keypoints_3d": [],
-            "hand_right_keypoints_3d": []
-        })
-    keypoints_filename = os.path.splitext(os.path.basename(user_image_path))[0] + '_keypoints.json'
-    keypoints_save_path = os.path.join(os.path.dirname(save_path), keypoints_filename)
+#     for person in datum.poseKeypoints:
+#         keypoints_data["people"].append({
+#             "person_id": [-1],
+#             "pose_keypoints_2d": person.tolist(),
+#             "face_keypoints_2d": [],
+#             "hand_left_keypoints_2d": [],
+#             "hand_right_keypoints_2d": [],
+#             "pose_keypoints_3d": [],
+#             "face_keypoints_3d": [],
+#             "hand_left_keypoints_3d": [],
+#             "hand_right_keypoints_3d": []
+#         })
+#     keypoints_filename = os.path.splitext(os.path.basename(user_image_path))[0] + '_keypoints.json'
+#     keypoints_save_path = os.path.join(os.path.dirname(save_path), keypoints_filename)
     
-    with open(keypoints_save_path, 'w') as f:
-        json.dump(keypoints_data, f)
-    return keypoints_data
+#     with open(keypoints_save_path, 'w') as f:
+#         json.dump(keypoints_data, f)
+#     return keypoints_data
 
 
 
@@ -296,13 +296,13 @@ def vton_result(product_id):
             print(user_image_path)
             file.save(user_image_path)
             keypoints_filename = os.path.splitext(os.path.basename(filename))[0] + '_keypoints.json'
-            keypoints_data = generate_keypoints_openpose(user_image_path)
-            save_path='C:\\Users\\aditi\\OneDrive\\Desktop\\myntra\\prototype\\Myntra_hack\\myntra_clone\\datasets\\test\\openpose-json'
-            keypoints_save_path = os.path.join(save_path, keypoints_filename)
-            with open(keypoints_save_path, 'w') as f:
-                json.dump(keypoints_data, f)
-            with open(keypoints_save_path, 'w') as f:
-                json.dump(keypoints_data, f)
+            # #keypoints_data = generate_keypoints_openpose(user_image_path)
+            # #save_path='C:\\Users\\aditi\\OneDrive\\Desktop\\myntra\\prototype\\Myntra_hack\\myntra_clone\\datasets\\test\\openpose-json'
+            # #keypoints_save_path = os.path.join(save_path, keypoints_filename)
+            # with open(keypoints_save_path, 'w') as f:
+            #     json.dump(keypoints_data, f)
+            # with open(keypoints_save_path, 'w') as f:
+            #     json.dump(keypoints_data, f)
             cloth_image_path=product['img']
             with open(r'C:/Users/aditi/OneDrive/Desktop/myntra/prototype/Myntra_hack/myntra_clone/datasets/test_pairs.txt', 'w') as f:
                 f.write(f"{os.path.basename(user_image_path)} {os.path.basename(cloth_image_path)}\n")
