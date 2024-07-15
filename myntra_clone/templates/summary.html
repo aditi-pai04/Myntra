@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Summary for Product ID {{ product_id }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .summary-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .summary-text {
+            max-width: 50%;
+        }
+        .summary-chart {
+            max-width: 50%;
+            text-align: center;
+        }
+        .summary-chart img {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Review Summary for Product ID {{ product_id }}</h1>
+        <div class="summary-section">
+            <div class="summary-text">
+                <h2>Positive Reviews Summary</h2>
+                <p>{{ summary_positive }}</p>
+                <h2>Neutral Reviews Summary</h2>
+                <p>{{ summary_neutral }}</p>
+                <h2>Negative Reviews Summary</h2>
+                <p>{{ summary_negative }}</p>
+            </div>
+            <div class="summary-chart">
+                <h2>Sentiment Distribution</h2>
+                <img src="data:image/png;base64,{{ chart_data }}" alt="Sentiment Distribution Pie Chart">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

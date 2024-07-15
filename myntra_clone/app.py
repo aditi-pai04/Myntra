@@ -1,22 +1,30 @@
 from flask import Flask, render_template, request, redirect, url_for
 import pandas as pd
 import os
+from textblob import TextBlob
 from werkzeug.utils import secure_filename
 import argparse
 import os
 import flash
 import torch
+import base64
 from torch import nn
 from torch.nn import functional as F
 import torchgeometry as tgm
 from PIL import Image
 from datasets import VITONDataset
+import matplotlib.pyplot as plt
+import io
 import json 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'C:\\Users\\aditi\\OneDrive\\Desktop\\myntra\\prototype\\Myntra_hack\\myntra_clone\\datasets\\test\\openpose-img'
 app.config['UPLOADF']='C:/Users/aditi/OneDrive/Desktop/myntra/prototype/Myntra_hack/myntra_clone/datasets/test/openpose-json'
 output_folder='static/output'
 model_path = "C:/Users/aditi/Documents/VITON-HD-20240712T134614Z-001/checkpoints"
+
+# Load products and reviews data
+file_path_products = 'final\\Myntra_hack\\myntra_clone\\myntra_sheet.csv'
+file_path_reviews = 'final\\Myntra_hack\\myntra_clone\\myntra_sheet_with_reviews.csv'
 
 import argparse
 import os
@@ -73,9 +81,21 @@ from utils import gen_noise, load_checkpoint, save_images
 #     #     json.dump(keypoints_data, f)
 #     return keypoints_data
 
+# Classify sentiment
+def classify_sentiment(review):
+    analysis = TextBlob(str(review))
+    if analysis.sentiment.polarity > 0:
+        return 'positive'
+    elif analysis.sentiment.polarity == 0:
+        return 'neutral'
+    else:
+        return 'negative'
 
-
-
+# Summarize reviews
+def summarize_reviews(reviews):
+    string_reviews = [str(review) for review in reviews]
+    summary = TextBlob(" ".join(string_reviews)).noun_phrases
+    return ". ".join(summary[:5])  # Take the first 5 key phrases for summary
 def get_opt():
     parser = argparse.ArgumentParser()
     parser.add_argument('--name', type=str, required=True)
@@ -241,14 +261,91 @@ def home():
     products = load_products()
     return render_template('index.html', products=products)
 
+# @app.route('/product/<int:product_id>')
+# def product_page(product_id):
+#     products = load_products()
+#     product = next((p for p in products if p['id'] == product_id), None)
+#     if product:
+#         return render_template('product.html', product=product)
+#     else:
+#         return "Product not found", 404
+
+reviews_df = pd.read_csv('C:\\Users\\aditi\\OneDrive\\Desktop\\myntra\\prototype\\Myntra_hack\\myntra_clone\\myntra_sheet_with_reviews.csv')
+
 @app.route('/product/<int:product_id>')
 def product_page(product_id):
     products = load_products()
     product = next((p for p in products if p['id'] == product_id), None)
-    if product:
-        return render_template('product.html', product=product)
-    else:
+    
+    if not product:
         return "Product not found", 404
+
+    # Filter reviews for the specific product ID
+    product_reviews = reviews_df[reviews_df['id'] == product_id]['comment']
+
+    return render_template(
+        'product.html',
+        product=product,
+        image=product['img'],
+        product_reviews=product_reviews,
+    )
+
+@app.route('/summary/<int:product_id>')
+def review_summary(product_id):
+    # Filter reviews for the specific product ID
+    product_reviews = reviews_df[reviews_df['id'] == product_id]
+    
+    # Initialize sentiment counts
+    positive_count = 0
+    neutral_count = 0
+    negative_count = 0
+
+    positive_reviews = []
+    neutral_reviews = []
+    negative_reviews = []
+
+    for review in product_reviews['comment']:
+        sentiment = classify_sentiment(review)
+        if sentiment == 'positive':
+            positive_reviews.append(review)
+            positive_count += 1
+        elif sentiment == 'neutral':
+            neutral_reviews.append(review)
+            neutral_count += 1
+        else:
+            negative_reviews.append(review)
+            negative_count += 1
+
+    # Summarize reviews for each sentiment
+    summary_positive = summarize_reviews(positive_reviews)
+    summary_neutral = summarize_reviews(neutral_reviews)
+    summary_negative = summarize_reviews(negative_reviews)
+
+    # Create pie chart
+    counts = [positive_count, neutral_count, negative_count]
+    labels = ['Positive', 'Neutral', 'Negative']
+    colors = ['green', 'orange', 'red']
+    
+    fig, ax = plt.subplots()
+    ax.pie(counts, labels=labels, autopct='%1.1f%%', colors=colors, startangle=90)
+    ax.axis('equal')
+    plt.title(f'Sentiment Distribution for Product ID {product_id}')
+
+    # Save plot to a string buffer
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    chart_data = base64.b64encode(buf.getvalue()).decode('utf-8')
+    buf.close()
+
+    return render_template(
+        'summary.html',
+        product_id=product_id,
+        summary_positive=summary_positive,
+        summary_neutral=summary_neutral,
+        summary_negative=summary_negative,
+        chart_data=chart_data,
+    )
 
 @app.route('/tryon/<int:product_id>', methods=['GET', 'POST'])
 def vton(product_id):

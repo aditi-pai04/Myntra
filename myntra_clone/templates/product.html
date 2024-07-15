@@ -77,12 +77,59 @@
         .button-container button:hover {
             background-color: #e02e56;
         }
+        .review-summary {
+            margin-top: 40px;
+        }
+        .review-summary h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .review-summary p {
+            margin-bottom: 10px;
+        }
+        .review-list {
+            margin-bottom: 20px;
+        }
+        .review-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            background-color: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .review-item p {
+            margin: 0 0 5px;
+        }
+        .review-item strong {
+            color: #333;
+            font-weight: 600;
+        }
+        .review-item .review-rating {
+            color: #ffc107;
+            font-size: 14px;
+        }
+        .summary-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .summary-text {
+            max-width: 50%;
+        }
+        .summary-chart {
+            max-width: 50%;
+            text-align: center;
+        }
+        .summary-chart img {
+            max-width: 100%;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-            <center>
-        <img src="{{ product['img'] }}" alt="{{ product.name }}" class="product-img">
+        <img src="{{ url_for('static', filename=product.img) }}" alt="{{ product.name }}" class="product-img">
         <div class="product-details">
             <h1 class="product-title">{{ product.name }}</h1>
             <p class="product-price">₹{{ product.price }}</p>
@@ -93,11 +140,21 @@
             <p class="product-seller">Seller: {{ product.seller }}</p>
             <div class="button-container">
                 <button onclick="location.href='/tryon/{{ product.id }}'">Virtual Try On</button>
-                <button onclick="location.href='/reviews/{{ product.id }}'">Review Summarization</button>
+                <button onclick="location.href='/summary/{{ product.id }}'">Review Summarization</button>
                 <button onclick="alert('Buy Now functionality is not implemented yet!')">Buy Now</button>
             </div>
         </div>
-    </center>
+        
+        <div id="review-summary" class="review-summary">
+            <h3>Reviews</h3>
+            <div class="review-list">
+                {% for review in product_reviews %}
+                <div class="review-item">
+                    <p>{{ review }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </body>
 </html>
