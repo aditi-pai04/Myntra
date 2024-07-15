@@ -1,3 +1,7 @@
 /VITON-HD/
 myntra_clone/openpose/
-Myntra_hack/__pycache__/
+myntra_clone/openpose/
+__pycache__/
+myntra_clone/Self-Correction-Human-Parsing/
+myntra_clone/checkpoints/
+myntra_clone/__pycache__/

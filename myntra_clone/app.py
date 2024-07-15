@@ -10,10 +10,11 @@ from torch import nn
 from torch.nn import functional as F
 import torchgeometry as tgm
 from PIL import Image
-import json
-from openpose import pyopenpose as op  
+from datasets import VITONDataset
+import json 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'C:\\Users\\aditi\\OneDrive\\Desktop\\myntra\\prototype\\Myntra_hack\\myntra_clone\\datasets\\test\\openpose-img'
+app.config['UPLOADF']='C:/Users/aditi/OneDrive/Desktop/myntra/prototype/Myntra_hack/myntra_clone/datasets/test/openpose-json'
 output_folder='static/output'
 model_path = "C:/Users/aditi/Documents/VITON-HD-20240712T134614Z-001/checkpoints"
 
@@ -28,6 +29,7 @@ import torchgeometry as tgm
 from datasets import VITONDataset, VITONDataLoader
 from networks import SegGenerator, GMM, ALIASGenerator
 from utils import gen_noise, load_checkpoint, save_images
+
 # params = {
 #     'model_folder': 'C:/Users/aditi/OneDrive/Desktop/myntra/prototype/Myntra_hack/myntra_clone/openpose/models',  # Replace with your OpenPose model folder
 #     'disable_blending': False,
@@ -36,7 +38,7 @@ from utils import gen_noise, load_checkpoint, save_images
 #     'display': 0
 # }
 
-# # Initialize OpenPose
+# # # Initialize OpenPose
 # openpose = op.WrapperPython()
 # openpose.configure(params)
 # openpose.start()
@@ -64,11 +66,11 @@ from utils import gen_noise, load_checkpoint, save_images
 #             "hand_left_keypoints_3d": [],
 #             "hand_right_keypoints_3d": []
 #         })
-#     keypoints_filename = os.path.splitext(os.path.basename(user_image_path))[0] + '_keypoints.json'
-#     keypoints_save_path = os.path.join(os.path.dirname(save_path), keypoints_filename)
+#     # keypoints_filename = os.path.splitext(os.path.basename(user_image_path))[0] + '_keypoints.json'
+#     # keypoints_save_path = os.path.join(os.path.dirname(save_path), keypoints_filename)
     
-#     with open(keypoints_save_path, 'w') as f:
-#         json.dump(keypoints_data, f)
+#     # with open(keypoints_save_path, 'w') as f:
+#     #     json.dump(keypoints_data, f)
 #     return keypoints_data
 
 
@@ -286,6 +288,7 @@ def vton_result(product_id):
             flash('No file part')
             return redirect(request.url)
         file = request.files['userImage']
+        keypoints = request.form['keypoints']
         if file.filename == '':
             flash('No selected file')
             return redirect(request.url)
@@ -295,14 +298,15 @@ def vton_result(product_id):
             user_image_path = os.path.join(app.config['UPLOAD_FOLDER'], os.path.splitext(filename)[0] + '.png')
             print(user_image_path)
             file.save(user_image_path)
-            keypoints_filename = os.path.splitext(os.path.basename(filename))[0] + '_keypoints.json'
-            # #keypoints_data = generate_keypoints_openpose(user_image_path)
-            # #save_path='C:\\Users\\aditi\\OneDrive\\Desktop\\myntra\\prototype\\Myntra_hack\\myntra_clone\\datasets\\test\\openpose-json'
-            # #keypoints_save_path = os.path.join(save_path, keypoints_filename)
+            # keypoints_filename = os.path.splitext(os.path.basename(filename))[0] + '_keypoints.json'
+            # keypoints_data = generate_keypoints_openpose(user_image_path)
+            # save_path='C:\\Users\\aditi\\OneDrive\\Desktop\\myntra\\prototype\\Myntra_hack\\myntra_clone\\datasets\\test\\openpose-json'
+            # keypoints_save_path = os.path.join(save_path, keypoints_filename)
             # with open(keypoints_save_path, 'w') as f:
             #     json.dump(keypoints_data, f)
-            # with open(keypoints_save_path, 'w') as f:
-            #     json.dump(keypoints_data, f)
+            keypoints_path = os.path.join(app.config['UPLOADF'], f"{os.path.splitext(filename)[0]}_keypoints.json")
+            with open(keypoints_path, 'w') as f:
+                f.write(keypoints)
             cloth_image_path=product['img']
             with open(r'C:/Users/aditi/OneDrive/Desktop/myntra/prototype/Myntra_hack/myntra_clone/datasets/test_pairs.txt', 'w') as f:
                 f.write(f"{os.path.basename(user_image_path)} {os.path.basename(cloth_image_path)}\n")
